@@ -1,0 +1,2 @@
+D:>C++_Projects>g++ -o cpp.exe <filename>.cpp
+D:>C++_Projects>cpp.exe
