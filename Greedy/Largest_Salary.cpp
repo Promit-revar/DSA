@@ -1,39 +1,43 @@
 #include<iostream>
 #include<algorithm>
-#include<cstdio>
+#include<map>
 #include<vector>
 using namespace std;
 typedef long long ll;
-bool compare(vector<int>& a,vector<int>& b){
-    if(a[1]==b[1]){
-        return a[0]%10>b[0]%10;
-    }
-    return a[1]>=b[1];
+bool compare(int a,int b){
+    return a>b;
 }
-
 int main(){
-    int n,c,d,y;
+    int n,k,c;
+    vector<ll> v;
+    map<int,vector<ll> > mp;
     cin>>n;
-    vector<vector<int> > v;
     for(int i=0;i<n;i++){
-        scanf("%d",&d);
-        v.push_back({d});
+        cin>>k;
+        v.push_back(k);
     }
-    for(int i=0;i<n;i++){
-        
-        y=v[i][0];
-        while(y>0){
-            c=y%10;
-            y/=10;
+    ll f;
+    for(int j=9;j>0;j--){
+        mp[j]={};
+     }
+    for(auto i :v){
+        f=i;
+        while(f>0){
+            c=f%10;
+            f/=10;
         }
-        v[i].push_back(c);
-        //cout<<v[i][0]<<" "<<v[i][1]<<endl;
+        mp[c].push_back(i);
+        //cout<<c<<" ";
+     }
+     for(int j=9;j>0;j--){
+        sort(mp[j].begin(),mp[j].end(),compare);
+     }
+     for(int j=9;j>0;j--){
+        if(!mp[j].empty()){
+            cout<<mp[j][0];
+            cout<<mp[j][1];
+        }
+     }
 
-        
-    }
-    sort(v.begin(),v.end(),compare);
-    for(int i=0;i<n;i++){
-        cout<<v[i][0];
-    }
     return 0;
 }

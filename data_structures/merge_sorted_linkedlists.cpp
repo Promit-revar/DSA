@@ -48,7 +48,7 @@ void insert(int data){
 
 int main(){
     create c;
-    c.insert(2);
+    c.insert(2 );
     c.insert(3);
     c.insert(5);
     c.insert(8);
