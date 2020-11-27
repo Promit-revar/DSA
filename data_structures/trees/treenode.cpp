@@ -14,8 +14,27 @@ class treeNode{
         this->data=data;
     }
 };
+treeNode<int> * insertData(){
+    
+    int data,n;
+    cout<<"Enter Data for root:"<<endl;
+    cin>>data;
+
+    treeNode<int> *root=new treeNode<int>(data);
+    cout<<"Enter number of children:"<<endl;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        treeNode<int> * child=insertData();
+        root->ch.push_back(child);
+    }
+    return root;
+
+}
 void display(treeNode<int> * root){
-     cout<<root->data<<endl;
+    cout<<root->data<<" : ";
+    for(int i=0;i<root->ch.size();i++)
+       cout<<root->ch.at(i)->data<<", ";
+    cout<<endl;
      for(int i=0;i<root->ch.size();i++){
          display(root->ch[i]);
      }
@@ -29,12 +48,13 @@ int main(){
              / \
             2   3
     */
-    treeNode<int> * root=new treeNode<int>(1);
-    treeNode<int> *n1=new treeNode<int>(2);
-    treeNode<int> *n2=new treeNode<int>(3);
+    // treeNode<int> * root=new treeNode<int>(1);
+    // treeNode<int> *n1=new treeNode<int>(2);
+    // treeNode<int> *n2=new treeNode<int>(3);
     //connecting with parent...
-    root->ch.push_back(n1);
-    root->ch.push_back(n2);
+    // root->ch.push_back(n1);
+    // root->ch.push_back(n2);
+    treeNode<int> * root=insertData();
     display(root);
     return 0;
 }
