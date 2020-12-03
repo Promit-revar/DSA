@@ -13,6 +13,11 @@ class treeNode{
     treeNode(T data){
         this->data=data;
     }
+    ~treeNode(){
+        for(int i=0;i<this->ch.size();i++){
+            delete this->ch.at(i);
+        }
+    }
 };
 treeNode<int> * insertData(){
     
@@ -58,6 +63,13 @@ treeNode<int> * insert_rowise(){
 
 
 }
+int height(treeNode<int> * root,int h=0){
+    h=1;
+    for(int i=0;i<root->ch.size();i++){
+        h+=height(root->ch.at(i),h);
+    }
+    return h;
+}
 void display(treeNode<int> * root){
     cout<<root->data<<" : ";
     for(int i=0;i<root->ch.size();i++)
@@ -83,12 +95,29 @@ void rowise_print(treeNode<int> * root){
     }
 
 }
+void print_depth(treeNode<int> * root, int d){
+    if(d==0)
+    {
+        cout<<root->data<<" ";
+        return;
+    }
+    for(int i=0;i<root->ch.size();i++)
+    print_depth(root->ch.at(i),d-1);
+    
+}
 int countNodes(treeNode<int> * root){
     int ans=1;
     for(int i=0;i<root->ch.size();i++){
         ans+=countNodes(root->ch.at(i));
     }
     return ans;
+}
+int countLeafNodes(treeNode<int> * root,int n){
+    if(root->ch.empty())
+    n+=1;
+    for(int i=0;i<root->ch.size();i++)
+    n=countLeafNodes(root->ch.at(i),n);
+    return n;
 }
 int sumNode(treeNode<int>* root){
     int ans=root->data;
@@ -106,8 +135,24 @@ int maxData(treeNode<int> * root,int max){
       }
       return max;
 }
+void postorder(treeNode<int> * root){
+    
+    for(int i=0;i<root->ch.size();i++){
+        postorder(root->ch.at(i));
+        
+    }
+    cout<<root->data<<" ";
+}
+void preorder(treeNode<int> * root){
+    cout<<root->data<<" ";
+    for(int i=0;i<root->ch.size();i++){
+        preorder(root->ch.at(i));
+    }
+    
+}
 int main(){
-    //Inserting data and creating nodes with data type int... the root has two children n1,n2 which does not contain am=ny children 
+    //Tree-> 1 3 2 3 4 2 5 6 2 7 8 0 0 0 0 1 9 0
+    //Inserting data and creating nodes with data type int... the root has two children n1,n2 which does not contain any children 
     //further...
     /*
     Tree structure:
@@ -122,10 +167,17 @@ int main(){
     // root->ch.push_back(n1);
     // root->ch.push_back(n2);
     treeNode<int> * root=insert_rowise();
-    display(root);
+    //display(root);
     rowise_print(root);
-    cout<<countNodes(root)<<endl;
-    cout<<sumNode(root)<<endl;
-    cout<<maxData(root,INT_MIN)<<endl;
+    postorder(root);
+    cout<<endl;
+    preorder(root);
+    //cout<<countNodes(root)<<endl;
+    //cout<<sumNode(root)<<endl;
+    //cout<<maxData(root,INT_MIN)<<endl;
+    //cout<<height(root)<<endl;
+    //print_depth(root,3);
+    //cout<<countLeafNodes(root,0)<<endl;
+    delete root;
     return 0;
 }
