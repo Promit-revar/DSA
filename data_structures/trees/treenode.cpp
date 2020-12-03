@@ -1,6 +1,6 @@
 #include<iostream>
 #include<vector>
-
+#include<queue>
 using namespace std;
 template <typename T>
 class treeNode{
@@ -30,14 +30,81 @@ treeNode<int> * insertData(){
     return root;
 
 }
+treeNode<int> * insert_rowise(){
+    cout<<"Enter root:"<<endl;
+    int data,n;
+    treeNode<int> *front;
+    cin>>data;
+    treeNode<int> *root=new treeNode<int>(data);
+    
+    queue<treeNode<int>* > Q;
+    Q.push(root);
+    while(!Q.empty()){
+        front=Q.front();
+        cout<<"Enter Number of children of "<<front->data<<": "<<endl;
+        cin>>n;
+        Q.pop();
+        for(int i=1;i<=n;i++){
+            cout<<"Enter "<<i<<"th child of "<<front->data<<": ";
+            cin>>data;
+            treeNode<int> *child=new treeNode<int>(data);
+            front->ch.push_back(child);
+            Q.push(child);
+
+        }
+    }
+    return root;
+
+
+
+}
 void display(treeNode<int> * root){
     cout<<root->data<<" : ";
     for(int i=0;i<root->ch.size();i++)
        cout<<root->ch.at(i)->data<<", ";
     cout<<endl;
      for(int i=0;i<root->ch.size();i++){
-         display(root->ch[i]);
+        display(root->ch[i]);
      }
+}
+void rowise_print(treeNode<int> * root){
+    treeNode<int> * front;
+    queue<treeNode<int> * > que;
+    que.push(root);
+    while(!que.empty()){
+        front=que.front();
+        que.pop();
+        cout<<front->data<<" : ";
+        for(int i=0;i<front->ch.size();i++){
+            cout<<front->ch.at(i)->data<<", ";
+            que.push(front->ch.at(i));
+        }
+        cout<<endl;
+    }
+
+}
+int countNodes(treeNode<int> * root){
+    int ans=1;
+    for(int i=0;i<root->ch.size();i++){
+        ans+=countNodes(root->ch.at(i));
+    }
+    return ans;
+}
+int sumNode(treeNode<int>* root){
+    int ans=root->data;
+    for(int i=0;i<root->ch.size();i++){
+        ans+=sumNode(root->ch.at(i));
+    }
+    return ans;
+}
+int maxData(treeNode<int> * root,int max){
+      if(root->data>max){
+          max=root->data;
+      }
+      for(int i=0;i<root->ch.size();i++){
+          max=maxData(root->ch.at(i),max);
+      }
+      return max;
 }
 int main(){
     //Inserting data and creating nodes with data type int... the root has two children n1,n2 which does not contain am=ny children 
@@ -54,7 +121,11 @@ int main(){
     //connecting with parent...
     // root->ch.push_back(n1);
     // root->ch.push_back(n2);
-    treeNode<int> * root=insertData();
+    treeNode<int> * root=insert_rowise();
     display(root);
+    rowise_print(root);
+    cout<<countNodes(root)<<endl;
+    cout<<sumNode(root)<<endl;
+    cout<<maxData(root,INT_MIN)<<endl;
     return 0;
 }
