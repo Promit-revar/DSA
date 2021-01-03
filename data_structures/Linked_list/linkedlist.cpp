@@ -75,7 +75,7 @@ void insert_in_middle(int pos,int data){
         
         for(int i=1;i<pos-1; i++){
             ptr=ptr->next;
-        };
+        }
         if(ptr->next==NULL){
             ptr->next=n1;
             n1->next=NULL;
