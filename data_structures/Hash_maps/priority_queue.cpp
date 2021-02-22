@@ -36,19 +36,26 @@ public:
         }
     }
     T removeMin(){
+
         if(isempty()){
             return -1;
         }
         T temp=pq.at(0);
         pq.at(0)=pq.at(pq.size()-1);
         pq.pop_back();
+
         int rtinx=0;
         T k;
+        if(pq.size()<3){
+            return temp;
+        }
         while(pq.at(2*rtinx+1)<pq.at(rtinx) || pq.at(2*rtinx+2)<pq.at(rtinx)){
+
                 if(pq.at(2*rtinx+1)<pq.at(2*rtinx+2)){
                     k=pq.at(2*rtinx+1);
                     pq.at(2*rtinx+1)=pq.at(rtinx);
                     pq.at(rtinx)=k;
+
                 }
                 else{
                     k=pq.at(2*rtinx+2);
@@ -56,7 +63,9 @@ public:
                     pq.at(rtinx)=k;
                 }
 
+
         }
+        //eeedisplay();
         return temp;
 
     }
@@ -83,8 +92,12 @@ int main(){
     q->insert(15);
     q->display();
     cout<<q->removeMin()<<endl;
+    cout<<q->removeMin()<<endl;
+    cout<<q->removeMin()<<endl;
+    cout<<q->removeMin()<<endl;
+    cout<<q->removeMin()<<endl;
+    cout<<q->removeMin()<<endl;
     //cout<<q->removeMin()<<endl;
-    //cout<<q->removeMin()<<endl;
-    q->display();
+    //q->display();
   return 0;
 }
